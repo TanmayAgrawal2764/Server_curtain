@@ -382,9 +382,9 @@ function callit(st,id) {
 function callit2(st,id) {
   var device = awsIott.device({
     keyPath:
-      "./fde74993affdc235ed78f7a28ffdec437b3c31c63df8dbd80680956a5f878b57-private.pem.key",
+      "./26edecfaba64765dfcee9bc2e3cedec03e4907156101b3b9217b0cc2bb434356-private.pem.key",
     certPath:
-      "./fde74993affdc235ed78f7a28ffdec437b3c31c63df8dbd80680956a5f878b57-certificate.pem.crt",
+      "./26edecfaba64765dfcee9bc2e3cedec03e4907156101b3b9217b0cc2bb434356-certificate.pem.crt",
     caPath: "./AmazonRootCA1.pem",
     clientId: "iotconsole-942f23fd-3798-41ef-8070-18a9318be6c8",
     host: "a2jkrhdo8xxwzo-ats.iot.ap-south-1.amazonaws.com",
@@ -424,7 +424,7 @@ app.post("/checki",async(req,res)=>{
   const rsp = await DynamoDBDocumentClient.from(dynamoDB).send(
     new GetCommand(params)
   );
-  if(rsp["Item"].DST==1){
+  if(rsp["Item"] && rsp["Item"].DST==1){
     res.send("ON");
     const command = new PutCommand( {
       TableName: empTable1,
