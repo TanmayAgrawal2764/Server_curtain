@@ -114,12 +114,10 @@ async function fetchDatafromDatabase3(ele) {
   return [rsp["Item"]];
 }
 app.post("/login", async (req, res) => {
-  console.log(req);
   var result = [];
   if (req.body.flag == "admin" && req.body.userinput.username) {
     result = await fetchDatafromDatabase3(req.body.userinput.username);
     if (result[0]) {
-      console.log(result[0]);
       if (result[0].password == req.body.userinput.password) {
         if (
           (req.body.flag == "admin" && result[0].admin_flag == "Admin1") ||
@@ -132,7 +130,6 @@ app.post("/login", async (req, res) => {
   } else if(req.body.clientinput.username) {
     result = await fetchDatafromDatabase3(req.body.clientinput.username);
     if (result[0]) {
-      console.log(result[0]);
       if (result[0].password == req.body.clientinput.password) {
         if (
           (req.body.flag == "admin" && result[0].admin_flag == "Admin1") ||
