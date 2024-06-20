@@ -115,7 +115,7 @@ async function fetchDatafromDatabase3(ele) {
 }
 app.post("/login", async (req, res) => {
   var result = [];
-  if (req.body.flag == "admin" && req.body.userinput.username) {
+  if (req.body.flag == "admin" && req.body.userinput && req.body.userinput.username) {
     result = await fetchDatafromDatabase3(req.body.userinput.username);
     if (result[0]) {
       if (result[0].password == req.body.userinput.password) {
@@ -126,8 +126,14 @@ app.post("/login", async (req, res) => {
           res.send("success");
         }
       }
+      else{
+      res.send("Invalid Password");
     }
-  } else if(req.body.clientinput.username) {
+    }
+    else{
+      res.send("Invalid Username");
+    }
+  } else if(req.body.flag == "client" && req.body.clientinput && req.body.clientinput.username) {
     result = await fetchDatafromDatabase3(req.body.clientinput.username);
     if (result[0]) {
       if (result[0].password == req.body.clientinput.password) {
@@ -138,10 +144,16 @@ app.post("/login", async (req, res) => {
           res.send({ Name: result[0].name });
         }
       }
+      else{
+      res.send("Invalid Password");
+    }
+    }
+    else{
+      res.send("Invalid Username");
     }
   }
   else{
-    res.send("Invalid");
+    res.send("Invalid Authentication");
   }
 });
 const port = process.env.PORT || 3000;
