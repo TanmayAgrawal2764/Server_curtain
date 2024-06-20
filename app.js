@@ -117,12 +117,9 @@ app.post("/login", async (req, res) => {
   var result = [];
   if (req.body.flag == "admin" && req.body.userinput && req.body.userinput.username) {
     result = await fetchDatafromDatabase3(req.body.userinput.username);
-    if (result[0]) {
+    if (result[0] && result[0].admin_flag == "Admin1") {
       if (result[0].password == req.body.userinput.password) {
-        if (
-          (req.body.flag == "admin" && result[0].admin_flag == "Admin1") ||
-          (req.body.flag == "client" && !result[0].admin_flag)
-        ) {
+        if (req.body.flag == "admin" && result[0].admin_flag == "Admin1") {
           res.send("success");
         }
       }
@@ -135,12 +132,9 @@ app.post("/login", async (req, res) => {
     }
   } else if(req.body.flag == "client" && req.body.clientinput && req.body.clientinput.username) {
     result = await fetchDatafromDatabase3(req.body.clientinput.username);
-    if (result[0]) {
+    if (result[0] && !result[0].admin_flag) {
       if (result[0].password == req.body.clientinput.password) {
-        if (
-          (req.body.flag == "admin" && result[0].admin_flag == "Admin1") ||
-          (req.body.flag == "client" && !result[0].admin_flag)
-        ) {
+        if (req.body.flag == "client" && !result[0].admin_flag) {
           res.send({ Name: result[0].name });
         }
       }
