@@ -140,6 +140,9 @@ app.post("/login", async (req, res) => {
       }
     }
   }
+  else{
+    res.send("Invalid");
+  }
 });
 const port = process.env.PORT || 3000;
 app.post("/add-data", async (req, res) => {
