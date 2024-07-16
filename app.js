@@ -415,41 +415,10 @@ function callit2(st,id) {
   });
 }
 app.post("/change", (req, res) => {
-  callit(req.body.st,req.body.id);
-  
+  // callit(req.body.st,req.body.id);
 });
 app.post("/checki",async(req,res)=>{
-  await callit2(1,req.body.id);
-  var id = req.body.id;
-  var params = {
-    TableName: empTable1,
-    Key: {
-      uniqueId: id,
-    },
-  };
-  const rsp = await DynamoDBDocumentClient.from(dynamoDB).send(
-    new GetCommand(params)
-  );
-  if(rsp["Item"] && rsp["Item"].DST==1){
-    res.send("ON");
-    const command = new PutCommand( {
-      TableName: empTable1,
-      Item: {
-        uniqueId:rsp["Item"].uniqueId,
-        Indoor_Temp:rsp["Item"].Indoor_Temp,
-        Power:rsp["Item"].Power,
-        DST:0,
-        Outdoor_Temp:rsp["Item"].Outdoor_Temp,
-      },
-    });
-  
-    const response = await dynamoDB.send(command);
-    // console.log(response);
-  }
-  else{
-    res.send("OFF");
-    await callit2(0,req.body.id);
-  }
+  res.send("OFF");
 })
 app.post("/add-client", async (req, res) => {
   var dynamoDB = DynamoDBDocument.from(
